@@ -5,11 +5,47 @@
 <meta content="en-us" http-equiv="Content-Language" />
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
 <title>Wine Store</title>
+<script type="text/javascript">
+function isNumberKey(evt)
+{
+ var charCode = (evt.which) ? evt.which : event.keyCode
+ if (charCode > 31 && (charCode < 48 || charCode > 57))
+    return false;
+
+ return true;
+}
+function validate()
+{
+	x = document.searchForm;
+	YearFrom = x.YearFrom.value;
+	YearTo = x.YearTo.value;
+	CostFrom = x.CostFrom.value;
+	CostTo = x.CostTo.value;
+	
+	if ((YearTo > 0) & (YearFrom > YearTo))
+	{
+		alert("Year From can not be bigger than Year To.");
+		return false;
+	}	
+	else
+	{
+		if ((CostTo > 0) & (CostFrom > CostTo))
+		{
+			alert("Cost From can not be bigger than Cost To.");
+			return false;
+		}		
+		else
+		{
+			return true;
+		}
+	}
+}
+</script>
 </head>
 
 <body>
 <img src="Pictures/Logo.jpg" alt="" height="120" width="149" />
-<form action="Results.php" method="get">
+<form name="searchForm" action="Results.php" method="get" onsubmit="return validate()">
 <table style="width: 500px">
 	<tr>
 		<td>Wine Name:</td>
@@ -35,19 +71,19 @@
 	</tr>
 	<tr>
 		<td>Min. Stock of Wine</td>
-		<td><input name="MinStock" type="text" size="19" /></td>
+		<td><input name="MinStock" type="text" size="19" onkeypress="return isNumberKey(event)"/></td>
 	</tr>
 	<tr>
 		<td>Min. No of Customers who bought a Wine:</td>
-		<td><input name="MinCustomers" type="text" size="19" />&nbsp;</td>
+		<td><input name="MinCustomers" type="text" size="19" onkeypress="return isNumberKey(event)"/>&nbsp;</td>
 	</tr>
 	<tr>
 		<td>Wine Year:</td>
-		<td>From: <input name="YearFrom" type="text" maxlength="4" size="4" />To:<input name="YearTo" type="text" maxlength="4" size="4"/></td>
+		<td>From: <input name="YearFrom" type="text" maxlength="4" size="4" onkeypress="return isNumberKey(event)"/>To:<input name="YearTo" type="text" maxlength="4" size="4"/></td>
 	</tr>	
 	<tr>
 		<td>Cost (Dolar):</td>
-		<td>From: <input name="CostFrom" type="text" maxlength="4" size="4"/>To:<input name="CostTo" type="text" maxlength="4" size="4"/></td>
+		<td>From: <input name="CostFrom" type="text" maxlength="4" size="4" onkeypress="return isNumberKey(event)"/>To:<input name="CostTo" type="text" maxlength="4" size="4"/></td>
 	</tr>
 	<tr>
 		<td>&nbsp;</td>
