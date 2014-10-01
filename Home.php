@@ -9,7 +9,7 @@
 
 <body>
 <img src="Pictures/Logo.jpg" alt="" height="120" width="149" />
-<form action="" method="post">
+<form action="Results.php" method="get">
 <table style="width: 500px">
 	<tr>
 		<td>Wine Name:</td>
@@ -48,6 +48,10 @@
 	<tr>
 		<td>Cost (Dolar):</td>
 		<td>From: <input name="CostFrom" type="text" maxlength="4" size="4"/>To:<input name="CostTo" type="text" maxlength="4" size="4"/></td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><input name="ShowAll" type="submit" value="Show All" /></td>
 	</tr>
 </table>
 </form>
