@@ -6,6 +6,18 @@
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
 <title>Wine Store</title>
 <script type="text/javascript">
+function preventSpecialCharacter(evt)
+{
+ var charCode = (evt.which) ? evt.which : event.keyCode
+ if (charCode == 32 || 
+ 	((charCode > 47) && (charCode < 58)) ||
+ 	((charCode > 64) && (charCode < 91)) ||
+ 	((charCode > 96) && (charCode < 123)))
+    return true;
+
+ return false;
+}
+
 function isNumberKey(evt)
 {
  var charCode = (evt.which) ? evt.which : event.keyCode
@@ -49,11 +61,11 @@ function validate()
 <table style="width: 500px">
 	<tr>
 		<td>Wine Name:</td>
-		<td><input name="WineName" size ="30" type="text" /></td>
+		<td><input name="WineName" size ="30" type="text" onkeypress="return preventSpecialCharacter(event)"/></td>
 	</tr>
 	<tr>
 		<td>Winery Name:</td>
-		<td><input name="WineryName" size="30" type="text" /></td>
+		<td><input name="WineryName" size="30" type="text" onkeypress="return preventSpecialCharacter(event)"/></td>
 	</tr>	
 	<tr>
 		<td>Region:</td>

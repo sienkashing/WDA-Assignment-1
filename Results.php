@@ -7,17 +7,23 @@ require_once "DB.php";
 $template = new HTML_Template_IT("./templates");
 $template->loadTemplatefile("Results.tpl",true,true);
 
-$con = mysqli_connect("localhost","root","","winestore");
+$hostname = "localhost";
+$username = "root";
+$password="";
+$dbname = "winestore";
+$dsn="mysql://{$username}:{$password}@{$hostname}/{$dbname}";
+
+$con = @DB::connect($dsn);
 
 $Where = "";
 if (!empty($_GET['WineName']))
 {
-	$WineName = mysqli_real_escape_string($con, $_GET['WineName']);		
+	$WineName = $_GET['WineName'];		
 	$Where = "wine.wine_name Like '%".$WineName."%' ";
 }
 if (!empty($_GET['WineryName']))
 {
-	$WineryName = mysqli_real_escape_string($con,$_GET['WineryName']);
+	$WineryName = $_GET['WineryName'];
 	if ($Where <> "")
 	{	
 		$Where = $Where." AND winery.winery_name LIKE '%".$WineryName."%' ";
@@ -29,7 +35,7 @@ if (!empty($_GET['WineryName']))
 }
 if (!empty($_GET['Region']) and ($_GET['Region'] <> 'All'))
 {
-	$Region = mysqli_real_escape_string($con,$_GET['Region']);
+	$Region = $_GET['Region'];
 	if ($Where <> "")
 	{
 		$Where = $Where." AND region.region_name = '".$Region."' ";
@@ -41,7 +47,7 @@ if (!empty($_GET['Region']) and ($_GET['Region'] <> 'All'))
 }
 if (!empty($_GET['MinStock']))
 {
-	$MinStock = mysqli_real_escape_string($con,$_GET['MinStock']);
+	$MinStock = $_GET['MinStock'];
 	if ($Where <> "")
 	{
 		$Where = $Where." AND inventory.on_hand >= '".$MinStock."' ";
@@ -53,7 +59,7 @@ if (!empty($_GET['MinStock']))
 }	
 if (!empty($_GET['MinStock']))
 {
-	$MinStock = mysqli_real_escape_string($con,$_GET['MinStock']);
+	$MinStock = $_GET['MinStock'];
 	if ($Where <> "")
 	{
 		$Where = $Where." AND inventory.on_hand >= '".$MinStock."' ";
@@ -80,7 +86,7 @@ else
 {
 	if (!empty($_GET['YearFrom']))
 	{
-		$YearFrom = mysqli_real_escape_string($con,$_GET['YearFrom']);
+		$YearFrom = $_GET['YearFrom'];
 		if ($Where <> "")
 		{
 			$Where = $Where." AND wine.`year` >='".$YearFrom."' ";
@@ -92,7 +98,7 @@ else
 	}
 	if (!empty($_GET['YearTo']))
 	{
-		$YearTo = mysqli_real_escape_string($con,$_GET['YearTo']);
+		$YearTo = $_GET['YearTo'];
 		if ($Where <> "")
 		{
 			$Where = $Where." AND wine.`year` <='".$YearTo."' ";
@@ -105,8 +111,8 @@ else
 }	
 if (!empty($_GET['CostFrom']) and (!empty($_GET['CostTo'])))
 {
-	$CostFrom = mysqli_real_escape_string($con,$_GET['CostFrom']);
-	$CostTo = mysqli_real_escape_string($con,$_GET['CostTo']);
+	$CostFrom = $_GET['CostFrom'];
+	$CostTo = $_GET['CostTo'];
 	if ($Where <> "")
 	{
 		$Where = $Where." AND inventory.cost BETWEEN '".$CostFrom."' AND '".$CostTo."' ";
@@ -120,7 +126,7 @@ else
 {
 	if (!empty($_GET['CostFrom']))
 	{
-		$CostFrom = mysqli_real_escape_string($con,$_GET['CostFrom']);
+		$CostFrom = $_GET['CostFrom'];
 		if ($Where <> "")
 		{
 			$Where = $Where." AND inventory.cost >='".$CostFrom."' ";
@@ -132,7 +138,7 @@ else
 	}
 	if (!empty($_GET['CostTo']))
 	{
-		$CostTo = mysqli_real_escape_string($con,$_GET['CostTo']);
+		$CostTo = $_GET['CostTo'];
 		if ($Where <> "")
 		{
 			$Where = $Where." AND inventory.cost <='".$CostTo."' ";
@@ -182,14 +188,14 @@ $query = "SELECT ".
 		$query .= "ORDER BY WineName,Year,Variety,Winery, Region ";
 #echo $query;
 echo "</br>";
-$result = mysqli_query($con,$query);
-if (mysqli_num_rows($result) == 0)
+$result = $con->query($query);
+if ($result->numrows() == 0)
 {
 	echo 'No records match your search criteria.';
 }
 else
-{			
-	while($row = mysqli_fetch_array($result))
+{		
+	while($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 	{										
 		$template->setCurrentBlock("RESULTS");
 		$template->setVariable("WineName", $row['WineName']);
@@ -204,6 +210,4 @@ else
 	}			
 }
 $template->show();
-
-mysqli_close($con);
 ?>
