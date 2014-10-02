@@ -183,7 +183,7 @@
 					$query .= "HAVING COUNT(items.cust_id) >= '".$_GET['MinCustomers']. "' ";
 				}				
 				$query .= "ORDER BY WineName,Year,Variety,Winery, Region ";
-	    echo $query;
+	    #echo $query;
 	    echo "</br>";
 		$result = mysqli_query($con,$query);
 		if (mysqli_num_rows($result) == 0)
