@@ -75,7 +75,7 @@ function validate()
 	</tr>
 	<tr>
 		<td>Min. No of Customers who bought a Wine:</td>
-		<td><input name="MinCustomers" type="text" size="19" onkeypress="return isNumberKey(event)"/>&nbsp;</td>
+		<td><input name="MinCustomers" type="text" size="19" onkeypress="return isNumberKey(event)"/></td>
 	</tr>
 	<tr>
 		<td>Wine Year:</td>
@@ -87,7 +87,7 @@ function validate()
 	</tr>
 	<tr>
 		<td>&nbsp;</td>
-		<td><input name="ShowAll" type="submit" value="Show All" /></td>
+		<td><input name="Search" type="submit" value="Search" /></td>
 	</tr>
 </table>
 </form>
