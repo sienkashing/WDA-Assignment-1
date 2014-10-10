@@ -4,8 +4,8 @@ set_include_path('C:\wamp\bin\php\php5.5.12\pear');
 require_once "HTML/Template/IT.php";
 require_once "DB.php";
 
-$template = new HTML_Template_IT("./templates");
-$template->loadTemplatefile("Results.tpl",true,true);
+$template = new HTML_Template_IT(".");
+@$template->loadTemplatefile("Results.tpl",true,true);
 
 $hostname = "localhost";
 $username = "root";
@@ -188,14 +188,17 @@ $query = "SELECT ".
 		$query .= "ORDER BY WineName,Year,Variety,Winery, Region ";
 #echo $query;
 echo "</br>";
-$result = $con->query($query);
+@$result = $con->query($query);
 if ($result->numrows() == 0)
 {
-	echo 'No records match your search criteria.';
+        $template->setCurrentBlock("NORESULTS");        
+        $template->setVariable("header","<h1>No Records match your search criteria.</h1>");
+        $template->parseCurrentBlock("NORESULTS");
 }
 else
 {		
-	while($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+        $template->setCurrentBlock("GOTRESULTS");        
+	while($row = $result->fetchrow(DB_FETCHMODE_ASSOC))
 	{										
 		$template->setCurrentBlock("RESULTS");
 		$template->setVariable("WineName", $row['WineName']);
@@ -208,6 +211,7 @@ else
 		$template->setVariable("TotalOrders", $row['TotalOrders']);
 		$template->parseCurrentBlock("RESULTS");
 	}			
+        $template->parseCurrentBlock("GOTRESULTS");			
 }
 $template->show();
 ?>
