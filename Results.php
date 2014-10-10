@@ -4,8 +4,8 @@ set_include_path('C:\wamp\bin\php\php5.5.12\pear');
 require_once "HTML/Template/IT.php";
 require_once "DB.php";
 
-$template = new HTML_Template_IT("./templates");
-$template->loadTemplatefile("Results.tpl",true,true);
+$template = new HTML_Template_IT(".");
+@$template->loadTemplatefile("Results.tpl",true,true);
 
 $con = mysqli_connect("localhost","root","","winestore");
 
@@ -184,11 +184,14 @@ $query = "SELECT ".
 echo "</br>";
 $result = mysqli_query($con,$query);
 if (mysqli_num_rows($result) == 0)
-{
-	echo 'No records match your search criteria.';
+{              
+        $template->setCurrentBlock("NORESULTS");        
+        $template->setVariable("header","<h1>No Records match your search criteria.</h1>");
+        $template->parseCurrentBlock("NORESULTS");
 }
 else
-{			
+{
+        $template->setCurrentBlock("GOTRESULTS");        
 	while($row = mysqli_fetch_array($result))
 	{										
 		$template->setCurrentBlock("RESULTS");
@@ -202,6 +205,7 @@ else
 		$template->setVariable("TotalOrders", $row['TotalOrders']);
 		$template->parseCurrentBlock("RESULTS");
 	}			
+        $template->parseCurrentBlock("GOTRESULTS");
 }
 $template->show();
 

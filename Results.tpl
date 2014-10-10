@@ -4,12 +4,16 @@
 <head>
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
 <title>Results</title>
+<link href="css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-<a href="../Home.php">
-<img src="../Pictures/Logo.jpg" alt="" height="120" width="149" /></a>
-<table border="1">
+<div class="container">
+<a href="Home.php">
+<img src="Pictures/Logo.jpg" alt="" height="120" width="400" /></a>
+<!-- BEGIN GOTRESULTS -->
+<table class="table table-striped">    
+<thead>
 <tr>
 	<th>Wine Name</th>
 	<th>Year</th>			
@@ -20,6 +24,9 @@
 	<th>On Hand</th>
 	<th>Total Orders</th>
 </tr>
+</thead>
+<tbody>
+<!-- END GOTRESULTS -->
 <!-- BEGIN RESULTS -->
 <tr>
 	<td>{WineName}</td>
@@ -32,7 +39,17 @@
 	<td>{TotalOrders}</td>	
 </tr>
 <!-- END RESULTS -->
+<!-- BEGIN GOTRESULTS -->
+</tbody>
 </table>
+<!-- END GOTRESULTS -->
+<!-- BEGIN NORESULTS -->
+{header}
+<!-- END NORESULTS -->
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
 </body>
 
 </html>
